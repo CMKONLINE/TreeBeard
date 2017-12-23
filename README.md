@@ -21,11 +21,11 @@ npm run start:dev
 ## Technologies Used
 Build :
 
-    - [Webpack](https://webpack.js.org/)
-    - [Babel](https://babeljs.io/)
+[Webpack](https://webpack.js.org/)
+[Babel](https://babeljs.io/)
 Components:
 
-    - [React](https://reactjs.org/)
+[React](https://reactjs.org/)
 State:
 
-    - [Redux](https://redux.js.org/)
+[Redux](https://redux.js.org/)
