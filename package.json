@@ -1,0 +1,45 @@
+{
+  "name": "treebeard",
+  "version": "1.0.0",
+  "description": "Enterprise Blockchain UI Sandbox",
+  "main": "index.js",
+  "dependencies": {
+    "@babel/core": "^7.0.0-beta.35",
+    "@babel/preset-env": "^7.0.0-beta.35",
+    "@babel/preset-react": "^7.0.0-beta.35",
+    "react": "^16.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^8.0.0-beta.0",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.17",
+    "html-webpack-plugin": "^2.30.1",
+    "react-dom": "^16.2.0",
+    "react-hot-loader": "^3.1.3",
+    "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config config/webpack.config.js",
+    "start:dev": "webpack-dev-server --config config/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Flyingcirc-Danger/TreeBeard.git"
+  },
+  "author": "Tom Bryant",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Flyingcirc-Danger/TreeBeard/issues"
+  },
+  "homepage": "https://github.com/Flyingcirc-Danger/TreeBeard#readme"
+}
