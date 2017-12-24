@@ -1,8 +1,27 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware,combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import PropTypes from 'prop-types';
+import { Provider } from 'react-redux';
+import {TomModule} from './src/components/index.js'
+import * as ComponentModules from './src/components'
+
+let Apples = TomModule.container;
+
+
+
+const componentReducers = ()=>{
+    let reducers = {}
+    Object.entries(ComponentModules).map(([name,components])=>{
+        if(components.reducer) reducers[name.split('Module')[0]] = components.reducer;
+    })
+    return combineReducers(reducers);
+}
+
+
+const store = createStore(componentReducers(), composeWithDevTools());
 
 const render = Component => {
     ReactDOM.render(
@@ -19,8 +38,14 @@ class MainContent extends Component {
     }
 
     render(){
-        return <div>Hello World</div>
+        return  <Provider store={store}>
+                <Apples />
+            </Provider>
     }
+}
+
+MainContent.propTypes = {
+    
 }
 
 render(MainContent);
@@ -30,5 +55,3 @@ if(module.hot){
 }
 
 
-
-const store = createStore(()=>{}, composeWithDevTools());
