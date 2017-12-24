@@ -4,6 +4,13 @@ const path = require('path');
 
 module.exports = {
     context : process.cwd(),
+    resolve:{
+        alias: {
+            Components : path.resolve(__dirname, "src","components")
+          },
+          modules: [path.resolve(__dirname, 'src/components'),  "node_modules"],
+          extensions: ['.js', '.jsx', '.json', '.scss']
+    },
     entry : ['babel-polyfill',
             'react-hot-loader/patch',
             "./main.js"],
@@ -22,7 +29,6 @@ module.exports = {
             }
         ]
     },
-
     plugins: [
         new CleanWebpackPlugin(['dist'], {watch: true, root: process.cwd()} ),
         new HtmlWebpackPlugin({title: 'Enterprise Blockchain'})
