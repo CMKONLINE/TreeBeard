@@ -16,25 +16,27 @@ if [ $type == "1"  -o  $type == "component"  -o $type == "c" ];
     if [ $directory ];
         then cd $directory
     fi
+    module=$componentName'Module'
+    echo "export * as $module from './$componentName'" >> index.js
     mkdir $componentName && cd $componentName
     touch index.js
     touch "$componentName.js"
     echo "import React, { Component } from 'react';
-    import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-    export default class $componentName extends Component{
-        constructor(){
-            super();
-        }
-
-        render(){
-            return <div>$componentName component</div>
-        }
+export  class $componentName extends Component{
+    constructor(){
+        super();
     }
 
-    //Prop Definitions for this component
-    $componentName.propTypes = {}" >> $componentName.js
-    echo "export { component } from './$componentName';" >> index.js
+    render(){
+        return <div>$componentName component</div>
+    }
+} 
+
+//Prop Definitions for this component
+$componentName.propTypes = {}" >> $componentName.js
+    echo "export { $componentName as component } from './$componentName.js'" >> index.js
     echo "Finished creating Component : $componentName"
 fi
 
@@ -48,6 +50,25 @@ if [ $type == "2"  -o  $type == "container"  -o $type == "ct" ];
     fi
     cd $componentName
     touch container.js
+    echo "import { component as $componentName } from './'; 
+import {connect} from 'react-redux';
+import  * as actions from './actions';
+import { bindActionCreators } from 'redux';
+
+const mapStateToProps = (globalState, ownProps = {}) => {
+    const pageState = globalState.$componentName
+    return {...pageState};
+  }
+
+const mapDispatchToProps = (dispatch,ownProps) => {
+    let boundActions = {};
+    Object.entries(actions).map(([name,functions])=>{
+        boundActions[name] =  functions.actionCreator;
+    })
+    return bindActionCreators(boundActions,dispatch);
+}
+
+export const container =  connect(mapStateToProps, mapDispatchToProps)($componentName)" >> container.js
     echo "export { container } from './container.js'" >> index.js
     echo "Finished creating a container for component $componentName"
 fi
@@ -62,6 +83,18 @@ if [ $type == "3"  -o  $type == "reducer"  -o $type == "r" ];
     fi
     cd $componentName
     touch reducer.js
+    echo "import { handleActions } from 'redux-actions';
+import  * as actions from './actions';
+
+let defaultState = {};
+
+export const reducer = (()=>{
+     let handlers = {};
+     Object.entries(actions).map(([name,functions])=>{
+        handlers = {...handlers,...functions.handlers}
+     })
+     return handleActions(handlers,defaultState);
+ })()" >>  reducer.js
     echo "export { reducer } from './reducer.js'" >> index.js
     echo "Finished creating a reducer for component $componentName"
 fi
@@ -84,6 +117,22 @@ if [ $type == "4"  -o  $type == "action"  -o $type == "a" ];
     mkdir $actionName
     touch "$actionName/index.js"
     touch "$actionName/$actionName.js"
-    echo "export { $actionName } from './$actionName'" >> 'index.js'
+    actionUpper=$(echo "$actionName" | tr '[:lower:]' '[:upper:]')
+    echo "import { createAction } from 'redux-actions';
+
+export const $actionName = createAction('$actionUpper');
+
+export const actionCreator = (payload) =>{
+    return $actionName(payload);
+}
+
+export const handlers = {
+    [ $actionName ] : (state,action)=>{
+        return {...state};
+    }
+}" >> "$actionName/$actionName.js"
+    echo "export * as $actionName from './$actionName'" >> 'index.js'
+    echo "export * from './$actionName';" >> $actionName'/index.js';
+    echo "Finished creating action $actionName for component $componentName"
 fi
 

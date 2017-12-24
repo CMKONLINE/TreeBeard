@@ -15,13 +15,11 @@ let Apples = TomModule.container;
 const componentReducers = ()=>{
     let reducers = {}
     Object.entries(ComponentModules).map(([name,components])=>{
-        reducers[name] = components.reducer;
-        console.log(reducers)
+        if(components.reducer) reducers[name.split('Module')[0]] = components.reducer;
     })
     return combineReducers(reducers);
 }
 
-console.log(componentReducers());
 
 const store = createStore(componentReducers(), composeWithDevTools());
 

@@ -7,8 +7,8 @@ export  class Tom extends Component{
     }
 
     render(){
-        const { TestAction } = this.props;
-        return <div>Tom component
+        const { TestAction,val } = this.props;
+        return <div>Tom component {val}
             <button onClick={()=>{TestAction(5)}}>Test</button>
         </div>
     }
