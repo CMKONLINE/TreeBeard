@@ -19,6 +19,8 @@ if [ $type == "1"  -o  $type == "component"  -o $type == "c" ];
     module=$componentName'Module'
     echo "export * as $module from './$componentName'" >> index.js
     mkdir $componentName && cd $componentName
+    mkdir "__tests__"
+    touch "__tests__/$componentName-test.js"
     touch index.js
     touch "$componentName.js"
     echo "import React, { Component } from 'react';
@@ -36,6 +38,21 @@ export  class $componentName extends Component{
 
 //Prop Definitions for this component
 $componentName.propTypes = {}" >> $componentName.js
+    echo "var React = require('react');
+var expect = require('expect');
+import { shallow } from 'enzyme';
+import { component as $componentName } from '../'
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+Enzyme.configure({ adapter: new Adapter() });
+
+describe('$componentName Component', function () {
+  it('renders without problems', function () {
+    const wrapper = shallow(<$componentName />);
+    expect(wrapper.length).toEqual(1)
+  });
+});" > "__tests__/$componentName-test.js";
     echo "export { $componentName as component } from './$componentName.js'" >> index.js
     echo "Finished creating Component : $componentName"
 fi
